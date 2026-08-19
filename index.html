@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pinglight — see what's broadcasting</title>
+<meta name="description" content="A live radar of every Bluetooth device broadcasting around you — earbuds, watches, tracker tags, unknown beacons — identified honestly, with a stated confidence level. On-device only: the app has no network code at all. $2.99 once. Coming soon to the App Store.">
+<meta property="og:title" content="Pinglight">
+<meta property="og:description" content="A live radar of every Bluetooth device broadcasting around you, identified honestly, with a stated confidence level. On-device only — the app has no network code at all.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pinglight-site.vercel.app">
+<meta name="theme-color" content="#030907">
+<link rel="icon" href="/favicon.svg?v=1" type="image/svg+xml">
+<link rel="icon" href="/icon-32.png?v=1" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=1" sizes="180x180">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="stylesheet" href="/styles.css">
+<script src="/app.js" defer></script>
+</head>
+<body class="lp">
+
+<div class="page">
+
+  <header class="hd">
+    <div class="hd-lockup">
+      <svg class="mark" viewBox="0 0 200 200" role="img" aria-label="Pinglight">
+        <circle class="mark-ring" cx="100" cy="100" r="96" fill="none" stroke-width="4"/>
+        <circle class="mark-ring mark-ring--in" cx="100" cy="100" r="62" fill="none" stroke-width="2.5"/>
+        <circle class="mark-ring mark-ring--in" cx="100" cy="100" r="30" fill="none" stroke-width="2.5"/>
+        <line class="mark-hair" x1="100" y1="10" x2="100" y2="190" stroke-width="2"/>
+        <line class="mark-hair" x1="10" y1="100" x2="190" y2="100" stroke-width="2"/>
+        <path class="mark-sweep" d="M100 100 L100 6 A94 94 0 0 1 158 27 Z"/>
+        <circle class="mark-blip" cx="141" cy="66" r="9"/>
+      </svg>
+      <span class="wordmark">Pinglight</span>
+    </div>
+    <span class="hd-status">iOS &middot; Coming soon</span>
+  </header>
+
+  <section class="hero">
+    <h1>See what's broadcasting. <span class="hero-rest">A live radar of every Bluetooth device around you &mdash; earbuds, watches, trackers, unknown beacons &mdash; identified honestly, with a stated confidence.</span></h1>
+  </section>
+
+  <section class="stats" aria-label="At a glance">
+    <div class="stat">
+      <div class="stat-n">0</div>
+      <div class="stat-l">network calls, anywhere in the app</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">4,009</div>
+      <div class="stat-l">registered makers, matched on your phone</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">Every guess</div>
+      <div class="stat-l">carries a confidence level</div>
+    </div>
+  </section>
+
+  <div class="main" id="main">
+
+    <section class="desk" aria-labelledby="radar-eyebrow">
+      <div class="eyebrow-row">
+        <h2 class="eyebrow" id="radar-eyebrow">On the radar</h2>
+        <span class="eyebrow-rule" aria-hidden="true"></span>
+      </div>
+
+      <ol class="quirks">
+        <li>
+          <span class="q-num" aria-hidden="true">01</span>
+          <p><b>Earbuds and headphones</b> announce themselves so they can reconnect quickly. Almost always someone's personal audio gear doing normal pairing chatter &mdash; and Pinglight says so.</p>
+        </li>
+        <li>
+          <span class="q-num" aria-hidden="true">02</span>
+          <p><b>Watches and fitness bands</b> broadcast to stay linked to their phone. Mostly a sign a person is nearby, nothing more.</p>
+        </li>
+        <li>
+          <span class="q-num" aria-hidden="true">03</span>
+          <p><b>Tracker tags</b> show up as broadcasts consistent with Find&nbsp;My&ndash;style or Tile-style patterns. One that stays near you across different places and times is worth a closer look. Most belong to the people around you.</p>
+        </li>
+        <li>
+          <span class="q-num" aria-hidden="true">04</span>
+          <p><b>Camera glasses</b> pair over Bluetooth and can broadcast while powered on. A matching broadcast means such a device is likely nearby &mdash; it does not say whether it is recording, and Pinglight tells you that on the same screen.</p>
+        </li>
+        <li>
+          <span class="q-num" aria-hidden="true">05</span>
+          <p><b>Everything it can't place</b> is labeled Unidentified &mdash; not dressed up as something scarier. Unknown means unknown.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="desk" aria-labelledby="limits-eyebrow">
+      <div class="eyebrow-row">
+        <h2 class="eyebrow" id="limits-eyebrow">The limits, up front</h2>
+        <span class="eyebrow-rule" aria-hidden="true"></span>
+      </div>
+
+      <p class="desk-lede">No Bluetooth scanner &mdash; this one included &mdash; can tell you:</p>
+
+      <ol class="quirks">
+        <li>
+          <span class="q-num" aria-hidden="true">01</span>
+          <p><b>Whether a device is recording, listening, or transmitting.</b> A broadcast says a device is powered on and advertising. Nothing more, ever.</p>
+        </li>
+        <li>
+          <span class="q-num" aria-hidden="true">02</span>
+          <p><b>Exact distance or direction.</b> Signal strength is bent by walls, bodies, and pockets. Near / Close / Far are rough bands and are labeled as such.</p>
+        </li>
+        <li>
+          <span class="q-num" aria-hidden="true">03</span>
+          <p><b>A device's true identity.</b> Names are self-reported and spoofable &mdash; a name alone is always marked <b class="conf conf-low">Low</b> confidence. Many devices rotate addresses; some don't broadcast at all.</p>
+        </li>
+        <li>
+          <span class="q-num" aria-hidden="true">04</span>
+          <p><b>Anything about Wi-Fi, cellular, or wired devices.</b> If it isn't broadcasting over Bluetooth, it isn't on the radar.</p>
+        </li>
+      </ol>
+
+      <p class="desk-note">So Pinglight never says &ldquo;spy camera detected.&rdquo; It says what a broadcast is <em>consistent with</em>, and marks every identification <b class="conf conf-high">High</b>, <b class="conf conf-med">Medium</b>, or <b class="conf conf-low">Low</b> &mdash; with the reason spelled out.</p>
+    </section>
+
+    <section class="desk" aria-labelledby="net-eyebrow">
+      <div class="eyebrow-row">
+        <h2 class="eyebrow" id="net-eyebrow">Why no internet?</h2>
+        <span class="eyebrow-rule" aria-hidden="true"></span>
+      </div>
+
+      <p class="desk-lede">A privacy tool that phones home isn't one.</p>
+      <p class="desk-copy">Pinglight has <b>no network code at all</b> &mdash; not a setting, an architectural fact. Broadcasts are matched against registries built into the app: the Bluetooth SIG's public maker list, standard service identifiers, and broadcast patterns documented by public research. Everything happens on your phone, so nothing you scan can leave it.</p>
+      <p class="desk-copy">The session log lives in memory and is gone when you close the app. No account, no analytics, no ads &mdash; and Pinglight only listens to broadcasts; it never connects to any device.</p>
+    </section>
+
+    <aside class="rail" id="rail">
+
+      <div class="device">
+        <div class="phone">
+          <div class="phone-rim">
+            <div class="phone-screen" id="shots">
+
+              <figure class="shot">
+                <img src="/screens/1_radar.png" width="1290" height="2796" decoding="async" fetchpriority="high"
+                     alt="The radar screen: 12 devices broadcasting near you, blips on phosphor-green rings labeled Near, Close and Far — earbuds, a Forerunner watch, Tile and Find My–style trackers, Ray-Ban Meta glasses, a beacon, and one marked unknown — with a sweep passing and a banner reading No network. No account. On-device only.">
+              </figure>
+
+              <figure class="shot">
+                <img src="/screens/2_detail.png" width="1290" height="2796" decoding="async" loading="lazy"
+                     alt="A Broadcast Detail sheet for a Find My network broadcast, category Tracker Tag: what this probably is — consistent with an AirTag or any Find My–enabled accessory, the broadcast alone cannot say which product — a Medium confidence badge with its reason, and signal −60 dBm, Close.">
+              </figure>
+
+              <figure class="shot">
+                <img src="/screens/3_log.png" width="1290" height="2796" decoding="async" loading="lazy"
+                     alt="The Session Log: a timestamped in-memory list of devices that started broadcasting — Spectacles, a Fast Pair–style broadcast, a SmartThings Find–style broadcast, an unidentified broadcast, WH-1000XM5 headphones, an Eddystone-format beacon.">
+              </figure>
+
+              <figure class="shot">
+                <img src="/screens/4_info.png" width="1290" height="2796" decoding="async" loading="lazy"
+                     alt="The What It Means page: plain-language privacy meaning for each category — earbuds are almost always personal audio gear, watches mostly mean a person is nearby, trackers exist to be located, and camera glasses' broadcasts do not say whether they are recording.">
+              </figure>
+
+              <figure class="shot">
+                <img src="/screens/5_how.png" width="1290" height="2796" decoding="async" loading="lazy"
+                     alt="The How and Limits page: how Pinglight matches public broadcasts against public registries on your phone, what it can tell you, and what it cannot — whether a device is recording, exact distance, or a device's true identity — and neither can any Bluetooth scanner.">
+              </figure>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="reel-dots" id="reel-dots" role="tablist" aria-label="Choose a screen"></div>
+        <p class="reel-hint" id="reel-hint">Keep scrolling</p>
+      </div>
+
+      <div class="price">
+        <div class="price-n">$2.99 once.</div>
+        <p class="price-copy">No ads, no subscription, no in-app purchases. No account, no server &mdash; the app has no network code at all.</p>
+        <!-- TODO: replace href="#" with the real App Store URL once the app is live in App Store Connect. -->
+        <a class="pill" href="#"><span class="dot" aria-hidden="true"></span><span>Coming soon to the App&nbsp;Store</span></a>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <footer class="ft">
+    <p class="ft-neutral">Pinglight never claims a device is recording or spying &mdash; no Bluetooth scanner can know that. It reports what a broadcast is <span class="phosphor">consistent with</span>, marks every identification <span class="phosphor">High</span>, <span class="amber">Medium</span>, or <span class="violet">Low</span> confidence, and keeps its limits one tap away inside the app.</p>
+    <div class="ft-meta">
+      <span>&copy; 2026 Delvir Limited Liability Co.</span>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="mailto:team@delvir.co">Support</a>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>

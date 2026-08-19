@@ -1,0 +1,810 @@
+/* Pinglight — marketing site.
+
+   Type is the system monospace stack throughout: the app itself is set in the
+   system monospaced face, and shipping zero font files is the same posture as
+   shipping zero third-party bytes. No Google Fonts link anywhere; the CSP is
+   `font-src 'self'` and nothing ever requests a font.
+
+   Two sections:
+     1. LANDING PAGE (body.lp) — the dark phosphor-radar artboard.
+     2. LEGAL PAGES (body.legal) — privacy.html / terms.html, same palette,
+        quieter chrome.
+
+   Palette = the app's PinglightTheme (RootView.swift), converted to sRGB hex:
+     background #030907   panel #07130F   phosphor #4DFF99   dim #598C73
+     grid = phosphor at 16%
+   Category accents (Models.swift): amber #FF9E40 (tracker), violet #D973F2
+   (glasses), yellow #F2D959 (beacon), blue #66BFF2 (wearable). */
+
+:root {
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+
+  --ground: #030907;
+  --panel: #07130f;
+  --phosphor: #4dff99;
+  --dim: #598c73;
+  --amber: #ff9e40;
+  --violet: #d973f2;
+
+  --text: #dcf2e6;
+  --body-muted: #9fc0af;
+  --hero-muted: #7ea892;
+  --label: #6f9482;
+  --label-dim: #5d8070;
+  --label-dimmer: #4e6d5f;
+  --list-num: #3f5c4f;
+
+  --hair-24: rgba(77, 255, 153, 0.10);  /* list row borders */
+  --hair-soft: rgba(77, 255, 153, 0.13); /* eyebrow rule, footer rule */
+  --hair: rgba(77, 255, 153, 0.18);      /* stat rules, price-card border */
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--text);
+  font-family: var(--mono);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+a {
+  color: var(--phosphor);
+  text-decoration-color: rgba(77, 255, 153, 0.4);
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--text);
+  text-decoration-color: currentColor;
+}
+
+:focus-visible {
+  outline: 2px solid var(--phosphor);
+  outline-offset: 3px;
+}
+
+/* ==================================================================
+   LANDING PAGE (index.html, body.lp)
+
+   Same bones as the reference artboard: header, one-sentence hero, three
+   stats, a two-column main — reading on the left, a sticky rail on the
+   right holding the phone that pages through the app's real screens —
+   then a footer that states the product's honesty rule outright.
+   ================================================================== */
+
+body.lp {
+  /* `clip`, not `hidden`: `hidden` would make body a scroll container and
+     silently kill the sticky rail. */
+  overflow-x: clip;
+}
+
+body.lp a {
+  color: var(--body-muted);
+  text-decoration-color: rgba(159, 192, 175, 0.4);
+}
+
+body.lp a:hover {
+  color: var(--phosphor);
+  text-decoration-color: currentColor;
+}
+
+.page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 34px clamp(20px, 5.5vw, 80px) 96px;
+}
+
+/* ---------- header ---------- */
+
+.hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.hd-lockup {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+
+.mark {
+  width: 54px;
+  height: 54px;
+  flex: none;
+  display: block;
+}
+
+/* The mark: a scope — rings, crosshair, one sweep wedge, one blip.
+   Same geometry as favicon.svg. */
+.mark-ring { stroke: rgba(77, 255, 153, 0.55); }
+.mark-ring--in { stroke: rgba(77, 255, 153, 0.28); }
+.mark-hair { stroke: rgba(77, 255, 153, 0.18); }
+.mark-sweep { fill: rgba(77, 255, 153, 0.22); }
+.mark-blip { fill: var(--phosphor); }
+
+.wordmark {
+  font-size: clamp(23px, 2.4vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.hd-status {
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--label);
+  white-space: nowrap;
+}
+
+/* ---------- hero ---------- */
+
+.hero {
+  padding-top: clamp(52px, 7.5vw, 96px);
+  max-width: 1040px;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(30px, 4.6vw, 54px);
+  line-height: 1.12;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  text-wrap: pretty;
+  color: var(--phosphor);
+}
+
+.hero-rest {
+  color: var(--hero-muted);
+  font-weight: 400;
+}
+
+/* ---------- three stat blocks ---------- */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 24px;
+  margin-top: clamp(44px, 5.6vw, 72px);
+  max-width: 940px;
+}
+
+.stat {
+  border-top: 1px solid var(--hair);
+  padding: 16px 24px 0 0;
+}
+
+.stat-n {
+  font-size: clamp(24px, 2.6vw, 33px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--phosphor);
+}
+
+.stat-l {
+  margin-top: 8px;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--label);
+  line-height: 1.4;
+}
+
+/* ---------- two-column main ----------
+   Three reading sections on the left; the rail owns the right column and
+   spans all their rows, which is what gives the sticky phone its travel. */
+
+.main {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  grid-auto-rows: min-content;
+  gap: clamp(40px, 5.6vw, 72px);
+  align-items: start;
+  margin-top: clamp(56px, 7.5vw, 96px);
+}
+
+.desk {
+  grid-column: 1;
+  min-width: 0;
+}
+
+/* --- left: the reading column --- */
+
+.eyebrow-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.eyebrow {
+  margin: 0;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.2;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--phosphor);
+}
+
+.eyebrow-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--hair-soft);
+}
+
+.quirks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.quirks li {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 0 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--hair-24);
+}
+
+.quirks li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.q-num {
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  color: var(--list-num);
+  padding-top: 5px;
+}
+
+.quirks p {
+  margin: 0;
+  font-size: clamp(15px, 1.5vw, 17.5px);
+  line-height: 1.6;
+  color: var(--body-muted);
+  text-wrap: pretty;
+}
+
+.quirks b {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.desk-lede {
+  margin: 22px 0 0;
+  font-size: clamp(16px, 1.6vw, 19px);
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+.desk-copy {
+  margin: 18px 0 0;
+  font-size: clamp(15px, 1.5vw, 17.5px);
+  line-height: 1.65;
+  color: var(--body-muted);
+  text-wrap: pretty;
+}
+
+.desk-copy b {
+  color: var(--text);
+}
+
+.desk-note {
+  margin: 26px 0 0;
+  padding: 18px 20px;
+  border: 1px solid var(--hair);
+  border-left: 3px solid var(--phosphor);
+  border-radius: 4px;
+  background: var(--panel);
+  font-size: clamp(14.5px, 1.4vw, 17px);
+  line-height: 1.65;
+  color: var(--body-muted);
+  text-wrap: pretty;
+}
+
+.desk-note em {
+  font-style: normal;
+  color: var(--text);
+}
+
+/* Confidence chips, colored like the app's badges. */
+.conf {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.86em;
+}
+
+.conf-high { color: var(--phosphor); }
+.conf-med  { color: var(--amber); }
+.conf-low  { color: var(--violet); }
+
+/* --- right: the sticky rail (phone + price card) --- */
+
+.rail {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  position: sticky;
+  top: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 26px;
+}
+
+.device {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+/* The phone is sized so the whole rail — phone, gap, price card — still
+   fits one viewport, which is what makes the sticky paging readable. */
+.phone {
+  position: relative;
+  width: clamp(150px, calc((100svh - 350px) * 0.46), 232px);
+  padding: 7px;
+  border-radius: 34px;
+  background: linear-gradient(145deg, #2c3a33, #17241e 40%, #0b130f 75%, #050a08);
+  box-shadow:
+    0 34px 60px -26px rgba(0, 0, 0, 0.85),
+    0 8px 20px rgba(0, 0, 0, 0.5),
+    0 0 44px rgba(77, 255, 153, 0.07),
+    inset 0 1px 2px rgba(120, 255, 180, 0.18);
+}
+
+.phone-rim {
+  padding: 3px;
+  border-radius: 28px;
+  background: #010302;
+}
+
+.phone-screen {
+  position: relative;
+  aspect-ratio: 1290 / 2796;
+  overflow: hidden;
+  border-radius: 25px;
+  background: var(--ground);
+}
+
+.shot {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  /* linear, and short: an eased cross-fade leaves both layers visibly
+     blended at the midpoint, which reads as a double exposure. */
+  transition: opacity 0.28s linear;
+}
+
+.shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* First screen shows even with JS off; app.js takes over once it runs. */
+.shot:first-child,
+.shot.is-active {
+  opacity: 1;
+}
+
+.js .shot:first-child {
+  opacity: 0;
+}
+
+.js .shot.is-active {
+  opacity: 1;
+}
+
+.reel-dots {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.reel-dot {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  padding: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--hair);
+  cursor: pointer;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.reel-dot:hover {
+  background: var(--dim);
+}
+
+.reel-dot.is-active {
+  width: 22px;
+  background: var(--phosphor);
+}
+
+.reel-hint {
+  margin: 0;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--label-dimmer);
+  transition: opacity 0.4s ease;
+}
+
+/* Retired once the visitor is steering by hand, and once the reel has reached
+   its last screen — by then there is nothing left to keep scrolling for. */
+.is-driving .reel-hint,
+.is-done .reel-hint {
+  opacity: 0;
+}
+
+/* --- the price card --- */
+
+.price {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: clamp(24px, 2.6vw, 34px);
+  border: 1px solid var(--hair);
+  border-radius: 5px;
+  background: var(--panel);
+}
+
+.price-n {
+  font-size: clamp(30px, 3vw, 38px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--phosphor);
+}
+
+.price-copy {
+  margin: 0;
+  font-size: clamp(14.5px, 1.4vw, 16.5px);
+  line-height: 1.55;
+  color: var(--body-muted);
+  text-wrap: pretty;
+}
+
+.pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 54px;
+  margin: 0;
+  padding: 8px 14px;
+  border-radius: 3px;
+  font-weight: 700;
+  font-size: 13.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  background: var(--phosphor);
+}
+
+body.lp .pill {
+  color: var(--ground);
+}
+
+body.lp .pill:hover {
+  color: var(--ground);
+  background: #7dffb6;
+}
+
+.pill .dot {
+  display: block;
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--ground);
+  animation: pl-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pl-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+/* ---------- footer ---------- */
+
+.ft {
+  margin-top: clamp(56px, 7.5vw, 96px);
+  padding-top: 26px;
+  border-top: 1px solid var(--hair-soft);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: clamp(24px, 4vw, 60px);
+}
+
+.ft-neutral {
+  margin: 0;
+  max-width: 720px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--label-dim);
+  text-wrap: pretty;
+}
+
+.ft-neutral .phosphor { color: var(--phosphor); }
+.ft-neutral .amber { color: var(--amber); }
+.ft-neutral .violet { color: var(--violet); }
+
+.ft-meta {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  font-weight: 500;
+  font-size: 12.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--label-dimmer);
+  white-space: nowrap;
+}
+
+/* ---------- reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .shot,
+  .reel-dot,
+  .reel-hint { transition: none; }
+  .pill .dot { animation: none; }
+}
+
+/* ---------- narrow screens ------------------------------------------------
+   One honest column, in the order a stranger needs it: who this is, the hook,
+   the numbers, THE THING ITSELF, then the reading, the price, the footer.
+   Nothing is pinned and nothing hijacks a gesture. `display: contents` on the
+   rail dissolves the desktop wrapper so the phone and the price card can be
+   ordered independently around the reading sections. */
+
+@media (max-width: 899px) {
+  .main {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(36px, 7vw, 56px);
+  }
+
+  .rail {
+    position: static;
+    display: contents;
+  }
+
+  .device { order: 1; }
+  .desk   { order: 2; } /* the three sections keep their own relative order */
+  .price  { order: 3; }
+
+  .phone { width: min(232px, 62vw, 34svh); }
+
+  .quirks li {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 0 14px;
+    padding: 20px 0;
+  }
+}
+
+@media (max-width: 639px) {
+  .stats {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .stat {
+    padding: 14px 0 18px;
+  }
+
+  .stat:last-child { padding-bottom: 0; }
+
+  .ft {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+  }
+
+  .ft-meta {
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    white-space: normal;
+  }
+
+  /* The company line takes its own row so the links sit together. */
+  .ft-meta span { flex: 0 0 100%; }
+
+  /* One line, at 360px too. */
+  .pill {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+  }
+}
+
+@media (max-width: 559px) {
+  .hd {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .hd-lockup { gap: 14px; }
+
+  .mark { width: 44px; height: 44px; }
+
+  .hd-status { font-size: 12px; }
+}
+
+/* ==================================================================
+   LEGAL PAGES (privacy.html, terms.html) — same palette, quieter chrome
+   ================================================================== */
+
+.wrap {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.site-header {
+  border-bottom: 1px solid var(--hair-soft);
+}
+
+.site-header .wrap {
+  max-width: 60rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1.1rem;
+  padding-bottom: 1.1rem;
+  gap: 1rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+}
+
+body.legal .brand {
+  color: var(--text);
+}
+
+.brand .seal {
+  width: 34px;
+  height: 34px;
+  flex: none;
+}
+
+.brand-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+}
+
+.site-nav a {
+  color: var(--body-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-left: 1.25rem;
+}
+
+.site-nav a:hover {
+  color: var(--phosphor);
+  text-decoration: underline;
+}
+
+.site-footer {
+  border-top: 1px solid var(--hair-soft);
+  padding: 2rem 0 3rem;
+}
+
+.site-footer .wrap {
+  max-width: 60rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--label-dim);
+}
+
+.site-footer nav a {
+  color: var(--label-dim);
+  text-decoration: none;
+  margin-right: 1.1rem;
+}
+
+.site-footer nav a:last-child {
+  margin-right: 0;
+}
+
+.site-footer nav a:hover {
+  color: var(--phosphor);
+  text-decoration: underline;
+}
+
+.legal main {
+  padding: 2.5rem 0 4rem;
+}
+
+.legal h1 {
+  font-size: 1.9rem;
+  line-height: 1.2;
+  margin: 0 0 0.25rem;
+  color: var(--phosphor);
+}
+
+.legal .effective {
+  color: var(--label);
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+.legal h2 {
+  font-size: 1.1rem;
+  line-height: 1.3;
+  margin: 2rem 0 0.5rem;
+  color: var(--text);
+}
+
+.legal p, .legal li {
+  color: var(--body-muted);
+  font-size: 0.95rem;
+}
+
+.legal ul {
+  padding-left: 1.25rem;
+}
+
+.legal .notice {
+  border: 1px solid var(--hair);
+  border-left: 3px solid var(--amber);
+  padding: 0.75rem 1rem;
+  background: var(--panel);
+  border-radius: 0 6px 6px 0;
+  font-size: 0.88rem;
+  color: var(--label);
+  margin-bottom: 2rem;
+}
+
+.legal strong {
+  color: var(--text);
+}
