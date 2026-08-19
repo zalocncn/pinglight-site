@@ -3,7 +3,7 @@
 Marketing site for **Pinglight** — an honest Bluetooth awareness radar for iOS.
 See what's broadcasting.
 
-Live: https://pinglight-site.vercel.app (custom domain to be attached later)
+Live: https://pinglight.app
 
 ## Shape
 
@@ -46,5 +46,3 @@ Vercel project `pinglight-site`. `vercel --prod` from the repo root.
 
 - Replace the `href="#"` App Store pill in index.html once the app is live
   in App Store Connect (marked with a TODO comment).
-- Attach the real custom domain (update og:url in all three pages +
-  README when it exists).
