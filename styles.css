@@ -1,9 +1,9 @@
 /* Pinglight — marketing site.
 
-   Type is the system monospace stack throughout: the app itself is set in the
-   system monospaced face, and shipping zero font files is the same posture as
-   shipping zero third-party bytes. No Google Fonts link anywhere; the CSP is
-   `font-src 'self'` and nothing ever requests a font.
+   Type: IBM Plex Sans for all prose and headings, IBM Plex Mono only for
+   numbers and 11px uppercase labels (house style, redesign/home). Loaded via
+   Google Fonts; the CSP allows fonts.googleapis.com / fonts.gstatic.com in
+   addition to 'self'.
 
    Two sections:
      1. LANDING PAGE (body.lp) — the dark phosphor-radar artboard.
@@ -17,11 +17,13 @@
    (glasses), yellow #F2D959 (beacon), blue #66BFF2 (wearable). */
 
 :root {
-  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
-          "Liberation Mono", "Courier New", monospace;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", SFMono-Regular, Menlo,
+          Consolas, "Liberation Mono", "Courier New", monospace;
 
   --ground: #030907;
   --panel: #07130f;
+  --line: #163a2a;
   --phosphor: #4dff99;
   --dim: #598c73;
   --amber: #ff9e40;
@@ -29,7 +31,7 @@
 
   --text: #dcf2e6;
   --body-muted: #9fc0af;
-  --hero-muted: #7ea892;
+  --hero-muted: #9fc0af;
   --label: #6f9482;
   --label-dim: #5d8070;
   --label-dimmer: #4e6d5f;
@@ -54,7 +56,8 @@ body {
   margin: 0;
   background: var(--ground);
   color: var(--text);
-  font-family: var(--mono);
+  font-family: var(--sans);
+  font-weight: 400;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
@@ -82,15 +85,13 @@ a:hover {
 /* ==================================================================
    LANDING PAGE (index.html, body.lp)
 
-   Same bones as the reference artboard: header, one-sentence hero, three
-   stats, a two-column main — reading on the left, a sticky rail on the
-   right holding the phone that pages through the app's real screens —
-   then a footer that states the product's honesty rule outright.
+   A single reading column, redesigned per the House Style spec
+   (redesign/home): header, a two-column hero (copy + radar screenshot),
+   three stats, then reading sections stacked in document order — no sticky
+   rail, no scroll-driven animation.
    ================================================================== */
 
 body.lp {
-  /* `clip`, not `hidden`: `hidden` would make body a scroll container and
-     silently kill the sticky rail. */
   overflow-x: clip;
 }
 
@@ -110,6 +111,17 @@ body.lp a:hover {
   padding: 34px clamp(20px, 5.5vw, 80px) 96px;
 }
 
+/* Mono is reserved for numbers and 11px uppercase labels — never prose. */
+.mono,
+.hd-status,
+.eyebrow,
+.eyebrow-mono,
+.stat-n,
+.stat-l,
+.cta-os {
+  font-family: var(--mono);
+}
+
 /* ---------- header ---------- */
 
 .hd {
@@ -122,61 +134,151 @@ body.lp a:hover {
 .hd-lockup {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 12px;
   min-width: 0;
 }
 
 .mark {
-  width: 54px;
-  height: 54px;
+  width: 34px;
+  height: 34px;
   flex: none;
   display: block;
+  stroke: var(--phosphor);
 }
 
-/* The mark: a scope — rings, crosshair, one sweep wedge, one blip.
-   Same geometry as favicon.svg. */
-.mark-ring { stroke: rgba(77, 255, 153, 0.55); }
-.mark-ring--in { stroke: rgba(77, 255, 153, 0.28); }
+.mark-ring { stroke: var(--phosphor); }
+.mark-ring--in { stroke: var(--phosphor); opacity: 0.6; }
 .mark-hair { stroke: rgba(77, 255, 153, 0.18); }
-.mark-sweep { fill: rgba(77, 255, 153, 0.22); }
+.mark-sweep { fill: none; stroke: var(--phosphor); }
 .mark-blip { fill: var(--phosphor); }
 
 .wordmark {
-  font-size: clamp(23px, 2.4vw, 30px);
-  font-weight: 700;
+  font-family: var(--sans);
+  font-size: 20px;
+  font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.1;
+  color: var(--text);
+}
+
+.hd-nav {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  font-size: 15px;
+  color: var(--body-muted);
+}
+
+.hd-nav a {
+  color: var(--body-muted);
+  text-decoration: none;
+}
+
+.hd-nav a:hover {
+  color: var(--phosphor);
 }
 
 .hd-status {
-  font-weight: 500;
-  font-size: 13px;
-  letter-spacing: 0.24em;
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--label);
+  color: var(--label-dim);
   white-space: nowrap;
 }
 
 /* ---------- hero ---------- */
 
 .hero {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 60px;
+  align-items: center;
   padding-top: clamp(52px, 7.5vw, 96px);
-  max-width: 1040px;
+}
+
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  min-width: 0;
+}
+
+.eyebrow-mono {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--phosphor);
 }
 
 .hero h1 {
   margin: 0;
-  font-size: clamp(30px, 4.6vw, 54px);
-  line-height: 1.12;
-  font-weight: 700;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: clamp(32px, 4.2vw, 62px);
+  line-height: 1.06;
   letter-spacing: -0.025em;
   text-wrap: pretty;
+  color: var(--text);
+}
+
+.hero h1 .accent {
   color: var(--phosphor);
 }
 
-.hero-rest {
-  color: var(--hero-muted);
-  font-weight: 400;
+.hero-lede {
+  margin: 0;
+  font-size: clamp(16px, 1.4vw, 19px);
+  line-height: 1.6;
+  color: var(--body-muted);
+  max-width: 540px;
+  text-wrap: pretty;
+}
+
+/* ---------- coming-soon pill + hero CTA row ---------- */
+
+.hero-cta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 22px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.pill .dot {
+  display: block;
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--phosphor);
+  animation: pl-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pl-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+.hero-note {
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--body-muted);
 }
 
 /* ---------- three stat blocks ---------- */
@@ -184,53 +286,86 @@ body.lp a:hover {
 .stats {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0 24px;
-  margin-top: clamp(44px, 5.6vw, 72px);
-  max-width: 940px;
+  gap: 24px;
+  margin-top: 18px;
+  max-width: 640px;
 }
 
 .stat {
-  border-top: 1px solid var(--hair);
-  padding: 16px 24px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
 }
 
 .stat-n {
-  font-size: clamp(24px, 2.6vw, 33px);
-  font-weight: 700;
+  font-size: clamp(20px, 2vw, 26px);
+  font-weight: 400;
   line-height: 1;
-  letter-spacing: -0.01em;
   color: var(--phosphor);
 }
 
 .stat-l {
-  margin-top: 8px;
-  font-weight: 500;
-  font-size: 12px;
+  font-weight: 400;
+  font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--label);
+  color: var(--label-dim);
   line-height: 1.4;
 }
 
-/* ---------- two-column main ----------
-   Three reading sections on the left; the rail owns the right column and
-   spans all their rows, which is what gives the sticky phone its travel. */
+/* ---------- hero device: the radar screenshot ---------- */
 
-.main {
-  display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
-  grid-auto-rows: min-content;
-  gap: clamp(40px, 5.6vw, 72px);
-  align-items: start;
-  margin-top: clamp(56px, 7.5vw, 96px);
+.hero-device {
+  position: relative;
+  display: flex;
+  justify-content: center;
 }
+
+.phone {
+  position: relative;
+  width: min(310px, 100%);
+  border-radius: 40px;
+  padding: 10px;
+  background: #0b1a13;
+  border: 1px solid var(--line);
+  box-shadow:
+    0 40px 90px rgba(0, 0, 0, 0.6),
+    0 0 80px rgba(77, 255, 153, 0.08);
+}
+
+.phone-rim {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 32px;
+  overflow: hidden;
+}
+
+.phone-screen {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- reading sections ---------- */
 
 .desk {
-  grid-column: 1;
-  min-width: 0;
+  padding-top: clamp(72px, 8vw, 112px);
+  max-width: 1280px;
 }
 
-/* --- left: the reading column --- */
+.panel {
+  margin-top: clamp(72px, 8vw, 112px);
+  padding: 48px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
 
 .eyebrow-row {
   display: flex;
@@ -240,12 +375,16 @@ body.lp a:hover {
 
 .eyebrow {
   margin: 0;
-  font-weight: 700;
-  font-size: 13px;
+  font-weight: 400;
+  font-size: 11px;
   line-height: 1.2;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--phosphor);
+}
+
+.eyebrow-amber {
+  color: var(--amber);
 }
 
 .eyebrow-rule {
@@ -254,79 +393,89 @@ body.lp a:hover {
   background: var(--hair-soft);
 }
 
-.quirks {
-  list-style: none;
+.desk-head {
+  margin: 14px 0 0;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: clamp(24px, 2.6vw, 38px);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+.panel .desk-head,
+.panel .eyebrow-row {
   margin: 0;
-  padding: 0;
+}
+
+/* --- "On the radar" definition-list rows --- */
+
+.rows {
+  margin: 32px 0 0;
   display: flex;
   flex-direction: column;
 }
 
-.quirks li {
+.row {
   display: grid;
-  grid-template-columns: 46px minmax(0, 1fr);
-  gap: 0 20px;
-  padding: 24px 0;
-  border-bottom: 1px solid var(--hair-24);
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 24px;
+  padding: 22px 0;
+  border-top: 1px solid var(--line);
 }
 
-.quirks li:last-child {
-  border-bottom: 0;
-  padding-bottom: 0;
-}
-
-.q-num {
-  font-weight: 500;
-  font-size: 14px;
-  letter-spacing: 0.12em;
-  color: var(--list-num);
-  padding-top: 5px;
-}
-
-.quirks p {
+.row dt {
   margin: 0;
-  font-size: clamp(15px, 1.5vw, 17.5px);
+  font-weight: 500;
+  font-size: 19px;
+  color: var(--text);
+}
+
+.row dd {
+  margin: 0;
+  font-size: 16px;
   line-height: 1.6;
   color: var(--body-muted);
   text-wrap: pretty;
 }
 
-.quirks b {
-  font-weight: 700;
+/* --- "The limits, up front" grid --- */
+
+.limits-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 40px;
+}
+
+.limit {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+}
+
+.limit-t {
+  margin: 0;
+  font-weight: 500;
+  font-size: 18px;
   color: var(--text);
 }
 
-.desk-lede {
-  margin: 22px 0 0;
-  font-size: clamp(16px, 1.6vw, 19px);
-  font-weight: 700;
-  line-height: 1.5;
-  color: var(--text);
-  text-wrap: pretty;
-}
-
-.desk-copy {
-  margin: 18px 0 0;
-  font-size: clamp(15px, 1.5vw, 17.5px);
-  line-height: 1.65;
+.limit-d {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
   color: var(--body-muted);
-  text-wrap: pretty;
-}
-
-.desk-copy b {
-  color: var(--text);
 }
 
 .desk-note {
-  margin: 26px 0 0;
-  padding: 18px 20px;
-  border: 1px solid var(--hair);
-  border-left: 3px solid var(--phosphor);
-  border-radius: 4px;
-  background: var(--panel);
-  font-size: clamp(14.5px, 1.4vw, 17px);
-  line-height: 1.65;
-  color: var(--body-muted);
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--label-dim);
+  max-width: 900px;
   text-wrap: pretty;
 }
 
@@ -337,212 +486,62 @@ body.lp a:hover {
 
 /* Confidence chips, colored like the app's badges. */
 .conf {
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   font-size: 0.86em;
+  font-family: var(--sans);
 }
 
 .conf-high { color: var(--phosphor); }
 .conf-med  { color: var(--amber); }
 .conf-low  { color: var(--violet); }
 
-/* --- right: the sticky rail (phone + price card) --- */
-
-.rail {
-  grid-column: 2;
-  grid-row: 1 / span 3;
-  position: sticky;
-  top: 32px;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 26px;
-}
-
-.device {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-}
-
-/* The phone is sized so the whole rail — phone, gap, price card — still
-   fits one viewport, which is what makes the sticky paging readable. */
-.phone {
-  position: relative;
-  width: clamp(150px, calc((100svh - 350px) * 0.46), 232px);
-  padding: 7px;
-  border-radius: 34px;
-  background: linear-gradient(145deg, #2c3a33, #17241e 40%, #0b130f 75%, #050a08);
-  box-shadow:
-    0 34px 60px -26px rgba(0, 0, 0, 0.85),
-    0 8px 20px rgba(0, 0, 0, 0.5),
-    0 0 44px rgba(77, 255, 153, 0.07),
-    inset 0 1px 2px rgba(120, 255, 180, 0.18);
-}
-
-.phone-rim {
-  padding: 3px;
-  border-radius: 28px;
-  background: #010302;
-}
-
-.phone-screen {
-  position: relative;
-  aspect-ratio: 1290 / 2796;
-  overflow: hidden;
-  border-radius: 25px;
-  background: var(--ground);
-}
-
-.shot {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  opacity: 0;
-  /* linear, and short: an eased cross-fade leaves both layers visibly
-     blended at the midpoint, which reads as a double exposure. */
-  transition: opacity 0.28s linear;
-}
-
-.shot img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-/* First screen shows even with JS off; app.js takes over once it runs. */
-.shot:first-child,
-.shot.is-active {
-  opacity: 1;
-}
-
-.js .shot:first-child {
-  opacity: 0;
-}
-
-.js .shot.is-active {
-  opacity: 1;
-}
-
-.reel-dots {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.reel-dot {
-  appearance: none;
-  -webkit-appearance: none;
-  border: 0;
-  padding: 0;
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  background: var(--hair);
-  cursor: pointer;
-  transition: width 0.3s ease, background-color 0.3s ease;
-}
-
-.reel-dot:hover {
-  background: var(--dim);
-}
-
-.reel-dot.is-active {
-  width: 22px;
-  background: var(--phosphor);
-}
-
-.reel-hint {
-  margin: 0;
-  font-weight: 500;
-  font-size: 12px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--label-dimmer);
-  transition: opacity 0.4s ease;
-}
-
-/* Retired once the visitor is steering by hand, and once the reel has reached
-   its last screen — by then there is nothing left to keep scrolling for. */
-.is-driving .reel-hint,
-.is-done .reel-hint {
-  opacity: 0;
-}
-
-/* --- the price card --- */
-
-.price {
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-  padding: clamp(24px, 2.6vw, 34px);
-  border: 1px solid var(--hair);
-  border-radius: 5px;
-  background: var(--panel);
-}
-
-.price-n {
-  font-size: clamp(30px, 3vw, 38px);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  color: var(--phosphor);
-}
-
-.price-copy {
-  margin: 0;
-  font-size: clamp(14.5px, 1.4vw, 16.5px);
-  line-height: 1.55;
+.desk-copy {
+  margin: 16px 0 0;
+  font-size: 16px;
+  line-height: 1.6;
   color: var(--body-muted);
+  max-width: 560px;
   text-wrap: pretty;
 }
 
-.pill {
-  display: flex;
+.desk-copy:first-of-type {
+  margin-top: 32px;
+}
+
+.desk-copy b {
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* --- closing "Coming soon" panel --- */
+
+.panel-cta {
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
-  min-height: 54px;
-  margin: 0;
-  padding: 8px 14px;
-  border-radius: 3px;
-  font-weight: 700;
-  font-size: 13.5px;
-  letter-spacing: 0.16em;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.cta-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cta-copy .desk-copy {
+  margin-top: 0;
+  max-width: 600px;
+}
+
+.cta-os {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  text-align: center;
-  text-decoration: none;
-  background: var(--phosphor);
-}
-
-body.lp .pill {
-  color: var(--ground);
-}
-
-body.lp .pill:hover {
-  color: var(--ground);
-  background: #7dffb6;
-}
-
-.pill .dot {
-  display: block;
-  width: 6px;
-  height: 6px;
-  flex: none;
-  border-radius: 50%;
-  background: var(--ground);
-  animation: pl-pulse 2.4s ease-in-out infinite;
-}
-
-@keyframes pl-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.25; }
+  color: var(--phosphor);
+  white-space: nowrap;
 }
 
 /* ---------- footer ---------- */
@@ -574,8 +573,9 @@ body.lp .pill:hover {
   display: flex;
   align-items: center;
   gap: 26px;
-  font-weight: 500;
-  font-size: 12.5px;
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--label-dimmer);
@@ -585,55 +585,62 @@ body.lp .pill:hover {
 /* ---------- reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .shot,
-  .reel-dot,
-  .reel-hint { transition: none; }
   .pill .dot { animation: none; }
 }
 
 /* ---------- narrow screens ------------------------------------------------
-   One honest column, in the order a stranger needs it: who this is, the hook,
-   the numbers, THE THING ITSELF, then the reading, the price, the footer.
-   Nothing is pinned and nothing hijacks a gesture. `display: contents` on the
-   rail dissolves the desktop wrapper so the phone and the price card can be
-   ordered independently around the reading sections. */
+   One honest column below 900px: hero copy stacks above the phone, and the
+   two reading grids (device rows, limits) collapse to one column below
+   640px. Nothing is pinned and nothing hijacks a gesture. */
 
 @media (max-width: 899px) {
-  .main {
-    display: flex;
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  .hero-device {
+    order: -1;
+  }
+
+  .phone {
+    width: min(240px, 62vw);
+    margin: 0 auto;
+  }
+
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  .limits-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .panel-cta {
     flex-direction: column;
-    gap: clamp(36px, 7vw, 56px);
-  }
-
-  .rail {
-    position: static;
-    display: contents;
-  }
-
-  .device { order: 1; }
-  .desk   { order: 2; } /* the three sections keep their own relative order */
-  .price  { order: 3; }
-
-  .phone { width: min(232px, 62vw, 34svh); }
-
-  .quirks li {
-    grid-template-columns: 34px minmax(0, 1fr);
-    gap: 0 14px;
-    padding: 20px 0;
+    align-items: flex-start;
+    gap: 20px;
   }
 }
 
 @media (max-width: 639px) {
+  .hd-nav {
+    display: none;
+  }
+
+  .panel {
+    padding: 28px 22px;
+  }
+
   .stats {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0;
+    gap: 12px;
+    max-width: none;
   }
 
   .stat {
-    padding: 14px 0 18px;
+    padding-top: 12px;
   }
-
-  .stat:last-child { padding-bottom: 0; }
 
   .ft {
     flex-direction: column;
@@ -649,26 +656,21 @@ body.lp .pill:hover {
 
   /* The company line takes its own row so the links sit together. */
   .ft-meta span { flex: 0 0 100%; }
-
-  /* One line, at 360px too. */
-  .pill {
-    font-size: 12px;
-    letter-spacing: 0.12em;
-  }
 }
 
 @media (max-width: 559px) {
   .hd {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-wrap: wrap;
     gap: 12px;
   }
 
-  .hd-lockup { gap: 14px; }
+  .hd-lockup { gap: 10px; }
 
-  .mark { width: 44px; height: 44px; }
+  .mark { width: 30px; height: 30px; }
 
-  .hd-status { font-size: 12px; }
+  .wordmark { font-size: 17px; }
+
+  .hd-status { font-size: 11px; }
 }
 
 /* ==================================================================
