@@ -153,24 +153,15 @@ body.lp a:hover {
   white-space: nowrap;
 }
 
-/* ---------- hero ---------- */
+/* ---------- hero: scroll-driven iPhone ---------- */
 
-.hero {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 56px;
-  align-items: center;
+.ph-track {
+  --ph-w: 320px;
+  --ph-dot: var(--ink);
   padding-top: clamp(52px, 7.5vw, 96px);
 }
 
-.hero-copy {
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-  min-width: 0;
-}
-
-.hero h1 {
+.ph-head h1 {
   margin: 0;
   font-family: var(--display);
   font-weight: 700;
@@ -235,36 +226,54 @@ body.lp a:hover {
   color: var(--slate);
 }
 
-/* ---------- hero device: the radar scope ---------- */
+/* ---------- hero device: the radar scope, faint, behind the phone ---------- */
 
-.hero-device {
+.ph-stage {
   position: relative;
-  display: flex;
-  justify-content: center;
 }
 
-.radar-scope {
-  position: relative;
-  width: min(560px, 100%);
-}
-
-.scope-svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.radar-phone {
+.ph-rings {
   position: absolute;
-  right: -12px;
-  bottom: -8px;
-  width: 150px;
-  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(var(--ph-w) * 1.6);
+  height: calc(var(--ph-w) * 1.6);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ph-device,
+.ph-dots {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- hero captions (one shown at a time as the phone scrolls) ---------- */
+
+.ph-caps {
+  margin-top: 8px;
+  min-height: 74px;
+}
+
+.ph-cap b {
   display: block;
-  border: 1px solid var(--rule);
-  border-radius: 14px;
-  background: var(--paper);
-  box-shadow: 0 12px 28px rgba(27, 27, 25, 0.16);
+  font-family: var(--display);
+  font-weight: 700;
+  color: var(--amber);
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.ph-cap span {
+  display: block;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--slate);
+  max-width: 460px;
 }
 
 /* ---------- spec table (facts, dotted leaders) ---------- */
@@ -506,24 +515,6 @@ body.lp a:hover {
    and nothing hijacks a gesture. */
 
 @media (max-width: 899px) {
-  .hero {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 36px;
-  }
-
-  .hero-device {
-    order: -1;
-  }
-
-  .radar-scope {
-    width: min(320px, 78vw);
-    margin: 0 auto;
-  }
-
-  .radar-phone {
-    width: 150px;
-  }
-
   .row {
     grid-template-columns: minmax(0, 1fr);
     gap: 6px;

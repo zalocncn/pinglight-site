@@ -1,0 +1,183 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   Scroll-driven iPhone — shared component (2026-09-09)
+   Markup:
+     <section class="ph-track" data-ph-track>
+       <div class="ph-sticky">
+         <div class="ph-head"> …headline (+ .ph-lede paragraph) … </div>
+         <div class="ph-copy"> <ol class="ph-caps"><li class="ph-cap" data-ph-cap>…</li>…</ol> …CTA… </div>
+         <div class="ph-stage">
+           <div class="ph-device" aria-hidden="true">
+             <span class="ph-btn ph-btn-action"></span><span class="ph-btn ph-btn-up"></span>
+             <span class="ph-btn ph-btn-down"></span><span class="ph-btn ph-btn-power"></span>
+             <div class="ph-screen"><div class="ph-strip"><img class="ph-shot" …>×N</div></div>
+           </div>
+           <ol class="ph-dots"><li class="ph-dot" data-ph-dot></li>×N</ol>
+         </div>
+       </div>
+     </section>
+   The page scroll drives the strip: the section is (N-1) × --ph-step taller than the
+   sticky viewport; phone.js maps progress → screen index. No inline styles needed.
+   Per-site tokens: --ph-w (device width), --ph-body (titanium gradient), --ph-step,
+   --ph-top, and the caption/dot colors below.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.ph-track {
+  --ph-n: 1;
+  --ph-step: 70vh;                 /* scroll distance per screen change */
+  --ph-w: 300px;                   /* device width incl. body */
+  --ph-body: linear-gradient(155deg, #b9bbc0 0%, #6c6e73 20%, #3f4044 48%, #75777c 78%, #b3b5ba 100%);
+  --ph-cap: currentColor;
+  --ph-cap-dim: color-mix(in oklab, currentColor 45%, transparent);
+  --ph-dot: currentColor;
+  position: relative;
+  height: calc(100vh + (var(--ph-n) - 1) * var(--ph-step));
+  height: calc(100svh + (var(--ph-n) - 1) * var(--ph-step));
+}
+.ph-track.ph-static { height: auto; }
+
+.ph-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  align-content: center;
+  column-gap: 64px;
+  row-gap: 24px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.ph-head  { grid-area: 1 / 1 / 2 / 2; align-self: end; }
+.ph-copy  { grid-area: 2 / 1 / 3 / 2; align-self: start; }
+.ph-stage { grid-area: 1 / 2 / 3 / 3; align-self: center; }
+.ph-track.ph-static .ph-sticky { position: static; height: auto; }
+
+.ph-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+/* ── the device ─────────────────────────────────────────────────────── */
+.ph-device {
+  --w: var(--ph-w);
+  position: relative;
+  width: var(--w);
+  aspect-ratio: 71.5 / 149.6;
+  padding: calc(var(--w) * 0.03);
+  box-sizing: border-box;
+  border-radius: calc(var(--w) * 0.17);
+  background: var(--ph-body);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.35),
+    inset 0 0 0 calc(var(--w) * 0.011) rgba(10, 10, 12, 0.85),
+    0 calc(var(--w) * 0.14) calc(var(--w) * 0.26) calc(var(--w) * -0.1) rgba(0, 0, 0, 0.55),
+    0 calc(var(--w) * 0.03) calc(var(--w) * 0.06) calc(var(--w) * -0.03) rgba(0, 0, 0, 0.35);
+}
+.ph-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: calc(var(--w) * 0.142);
+  overflow: hidden;
+  background: #000;
+  transform: translateZ(0);           /* keeps the rounded clip on Safari during transforms */
+}
+/* Dynamic Island */
+.ph-screen::before {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  top: calc(var(--w) * 0.032);
+  left: 50%;
+  width: calc(var(--w) * 0.30);
+  height: calc(var(--w) * 0.088);
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: #000;
+}
+/* glass edge */
+.ph-screen::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+  pointer-events: none;
+}
+.ph-strip {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+.ph-shot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* side buttons (proportions of the 16 Pro body) */
+.ph-btn {
+  position: absolute;
+  width: calc(var(--w) * 0.012);
+  background: linear-gradient(90deg, #4a4b4f, #9c9ea3 55%, #6b6d72);
+  border-radius: 2px;
+}
+.ph-btn-action, .ph-btn-up, .ph-btn-down { left: calc(var(--w) * -0.011); border-radius: 2px 0 0 2px; }
+.ph-btn-power { right: calc(var(--w) * -0.011); border-radius: 0 2px 2px 0; background: linear-gradient(270deg, #4a4b4f, #9c9ea3 55%, #6b6d72); }
+.ph-btn-action { top: 18.5%; height: 4.2%; }
+.ph-btn-up     { top: 25.5%; height: 7%; }
+.ph-btn-down   { top: 34%;   height: 7%; }
+.ph-btn-power  { top: 28%;   height: 11.5%; }
+
+/* ── captions + dots ────────────────────────────────────────────────── */
+.ph-caps { list-style: none; margin: 0; padding: 0; display: grid; }
+.ph-cap {
+  grid-area: 1 / 1;                 /* stacked; the active one is visible */
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  color: var(--ph-cap);
+  pointer-events: none;
+}
+.ph-cap.is-active { opacity: 1; transform: none; pointer-events: auto; }
+.ph-track.ph-static .ph-cap { position: static; opacity: 1; transform: none; grid-area: auto; }
+
+.ph-dots { list-style: none; margin: 0; padding: 0; display: flex; gap: 8px; }
+.ph-dot {
+  width: 6px; height: 6px; border-radius: 999px;
+  background: var(--ph-dot); opacity: 0.25;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.ph-dot.is-active { opacity: 1; transform: scale(1.35); }
+.ph-track.ph-static .ph-dots { display: none; }
+
+/* ── phone-width layout: phone on top, copy below, both inside the sticky box ── */
+@media (max-width: 860px) {
+  .ph-sticky {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    align-content: stretch;
+    row-gap: 14px;
+    padding: 14px 20px 18px;
+  }
+  .ph-head  { grid-area: 1 / 1 / 2 / 2; align-self: start; }
+  .ph-stage { grid-area: 2 / 1 / 3 / 2; align-self: center; }
+  .ph-copy  { grid-area: 3 / 1 / 4 / 2; align-self: end; }
+  .ph-lede  { display: none; }
+  /* the phone takes what the viewport leaves after ~300px of headline + caption + CTA */
+  .ph-track { --ph-w: clamp(170px, calc((100svh - 310px) * 0.478), 280px); --ph-step: 55vh; }
+  .ph-stage { gap: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ph-cap, .ph-dot { transition: none; }
+}
