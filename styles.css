@@ -245,7 +245,7 @@ body.lp a:hover {
 
 .radar-scope {
   position: relative;
-  width: min(400px, 100%);
+  width: min(560px, 100%);
 }
 
 .scope-svg {
@@ -256,9 +256,9 @@ body.lp a:hover {
 
 .radar-phone {
   position: absolute;
-  right: -6px;
-  bottom: -18px;
-  width: 200px;
+  right: -12px;
+  bottom: -8px;
+  width: 150px;
   height: auto;
   display: block;
   border: 1px solid var(--rule);
