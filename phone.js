@@ -56,5 +56,12 @@
     window.addEventListener('resize', function () { fit(); onScroll(); });
     fit(); update();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { fit(); update(); });
+    // Web fonts and caption swaps change the copy's height after first paint: re-measure whenever it moves.
+    if (window.ResizeObserver) {
+      var ro = new ResizeObserver(function () { fit(); onScroll(); });
+      if (head) ro.observe(head);
+      if (copy) ro.observe(copy);
+    }
+    window.addEventListener('load', function () { fit(); update(); });
   });
 })();
