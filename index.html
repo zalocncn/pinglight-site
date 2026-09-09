@@ -9,12 +9,12 @@
 <meta property="og:description" content="A live radar of the Bluetooth devices broadcasting around you, identified honestly, with a stated confidence level. An awareness tool, not a security device. On-device only — the app has no network code at all.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pinglight.app/">
-<meta name="theme-color" content="#030907">
+<meta name="theme-color" content="#ecebe5">
 <link rel="icon" href="/favicon.svg?v=1" type="image/svg+xml">
 <link rel="icon" href="/icon-32.png?v=1" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=1" sizes="180x180">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="/styles.css">
 <script src="/app.js" defer></script>
 </head>
@@ -37,52 +37,95 @@
       <a href="#the-limits">The limits</a>
       <a href="#why-no-internet">Why no internet</a>
     </nav>
-    <span class="hd-status">iOS &middot; Coming soon</span>
+    <span class="hd-status">iOS — Coming soon</span>
   </header>
 
   <section class="hero">
     <div class="hero-copy">
-      <span class="eyebrow-mono">Bluetooth radar &middot; on-device &middot; no network code</span>
-      <h1>See what&rsquo;s broadcasting <span class="accent">around you</span>.</h1>
+      <h1>See what&rsquo;s broadcasting around you.</h1>
       <p class="hero-lede">A live radar of the Bluetooth devices broadcasting around you &mdash; earbuds, watches, trackers, unknown beacons &mdash; identified honestly, with a stated confidence.</p>
 
       <div class="hero-cta">
         <span class="pill" aria-disabled="true"><span class="dot" aria-hidden="true"></span><span>Coming soon to the App&nbsp;Store</span></span>
         <span class="hero-note">No ads. No subscription. No account.</span>
       </div>
-
-      <div class="stats" aria-label="At a glance">
-        <div class="stat">
-          <div class="stat-n">0</div>
-          <div class="stat-l">network calls, anywhere in the app</div>
-        </div>
-        <div class="stat">
-          <div class="stat-n">4,009</div>
-          <div class="stat-l">registered makers, matched on your phone</div>
-        </div>
-        <div class="stat">
-          <div class="stat-n">Every guess</div>
-          <div class="stat-l">carries a confidence level</div>
-        </div>
-      </div>
     </div>
 
     <div class="hero-device">
-      <div class="phone">
-        <div class="phone-rim">
-          <img class="phone-screen" src="/screens/radar.jpg" width="861" height="1400" decoding="async" fetchpriority="high"
-               alt="The radar screen: devices broadcasting near you, blips on phosphor-green rings labeled Near, Close and Far — a Ray-Ban Meta glasses broadcast, an unknown tracker, and a Broadcast Detail sheet for a Find My network broadcast with a Medium confidence badge and its reason.">
-        </div>
+      <div class="radar-scope">
+        <svg class="scope-svg" viewBox="0 0 320 320" role="img" aria-label="A radar scope showing device blips around a center point">
+          <path d="M160 160 L240 40 A144 144 0 0 1 299 123 Z" fill="#d98e1f" fill-opacity="0.16" stroke="none"/>
+
+          <circle cx="160" cy="160" r="36" fill="none" stroke="#1b1b19" stroke-opacity="0.35" stroke-width="1"/>
+          <circle cx="160" cy="160" r="72" fill="none" stroke="#1b1b19" stroke-opacity="0.35" stroke-width="1"/>
+          <circle cx="160" cy="160" r="108" fill="none" stroke="#1b1b19" stroke-opacity="0.35" stroke-width="1"/>
+          <circle cx="160" cy="160" r="144" fill="none" stroke="#1b1b19" stroke-opacity="0.35" stroke-width="1"/>
+
+          <g stroke="#1b1b19" stroke-opacity="0.4" stroke-width="1">
+            <line x1="160" y1="16" x2="160" y2="8"/>
+            <line x1="264" y1="56" x2="270" y2="50"/>
+            <line x1="304" y1="160" x2="312" y2="160"/>
+            <line x1="264" y1="264" x2="270" y2="270"/>
+            <line x1="160" y1="304" x2="160" y2="312"/>
+            <line x1="56" y1="264" x2="50" y2="270"/>
+            <line x1="16" y1="160" x2="8" y2="160"/>
+            <line x1="56" y1="56" x2="50" y2="50"/>
+          </g>
+
+          <line x1="160" y1="160" x2="270" y2="50" stroke="#d98e1f" stroke-width="1.5"/>
+
+          <g>
+            <circle cx="100" cy="150" r="4" fill="#1b1b19"/>
+            <line x1="104" y1="150" x2="118" y2="150" stroke="#1b1b19" stroke-opacity="0.5" stroke-width="1"/>
+            <text x="121" y="153" font-size="10" fill="#4a5568">earbuds</text>
+
+            <circle cx="130" cy="58" r="4" fill="#1b1b19"/>
+            <line x1="134" y1="58" x2="148" y2="52" stroke="#1b1b19" stroke-opacity="0.5" stroke-width="1"/>
+            <text x="150" y="50" font-size="10" fill="#4a5568">watch</text>
+
+            <circle cx="120" cy="245" r="4" fill="#1b1b19"/>
+            <line x1="116" y1="248" x2="104" y2="255" stroke="#1b1b19" stroke-opacity="0.5" stroke-width="1"/>
+            <text x="42" y="264" font-size="10" fill="#4a5568">tracker</text>
+
+            <circle cx="228" cy="52" r="4" fill="#d98e1f"/>
+            <line x1="224" y1="55" x2="212" y2="60" stroke="#d98e1f" stroke-opacity="0.7" stroke-width="1"/>
+            <text x="150" y="30" font-size="10" fill="#4a5568">camera glasses</text>
+
+            <circle cx="88" cy="208" r="4" fill="#1b1b19" fill-opacity="0.55"/>
+            <line x1="84" y1="210" x2="70" y2="216" stroke="#1b1b19" stroke-opacity="0.5" stroke-width="1"/>
+            <text x="8" y="222" font-size="10" fill="#4a5568">unidentified</text>
+
+            <circle cx="70" cy="110" r="4" fill="#1b1b19"/>
+            <line x1="66" y1="110" x2="52" y2="110" stroke="#1b1b19" stroke-opacity="0.5" stroke-width="1"/>
+            <text x="4" y="113" font-size="10" fill="#4a5568">fitness band</text>
+          </g>
+        </svg>
+        <img class="radar-phone" src="/screens/radar.jpg" width="861" height="1400" decoding="async" fetchpriority="high"
+             alt="The radar screen: devices broadcasting near you, blips on rings labeled Near, Close and Far — a Ray-Ban Meta glasses broadcast, an unknown tracker, and a Broadcast Detail sheet for a Find My network broadcast with a Medium confidence badge and its reason.">
       </div>
     </div>
   </section>
 
-  <section class="desk" id="on-the-radar" aria-labelledby="radar-eyebrow">
-    <div class="eyebrow-row">
-      <h2 class="eyebrow" id="radar-eyebrow">On the radar</h2>
-      <span class="eyebrow-rule" aria-hidden="true"></span>
-    </div>
-    <h3 class="desk-head">What shows up, and what it usually means.</h3>
+  <section class="spec" aria-label="At a glance">
+    <dl class="spec-table">
+      <div class="spec-row">
+        <dt>Network calls, anywhere in the app</dt>
+        <dd>0</dd>
+      </div>
+      <div class="spec-row">
+        <dt>Registered makers, matched on your phone</dt>
+        <dd>4,009</dd>
+      </div>
+      <div class="spec-row">
+        <dt>Confidence level</dt>
+        <dd>every guess carries one</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="desk" id="on-the-radar" aria-labelledby="radar-head">
+    <h2 class="desk-head" id="radar-head">On the radar</h2>
+    <p class="desk-lede">What shows up, and what it usually means.</p>
 
     <dl class="rows">
       <div class="row">
@@ -108,51 +151,57 @@
     </dl>
   </section>
 
-  <section class="panel" id="the-limits" aria-labelledby="limits-eyebrow">
-    <div class="eyebrow-row">
-      <h2 class="eyebrow eyebrow-amber" id="limits-eyebrow">The limits, up front</h2>
-      <span class="eyebrow-rule" aria-hidden="true"></span>
-    </div>
-    <h3 class="desk-head">No Bluetooth scanner, this one included, can tell you:</h3>
+  <section class="desk" id="the-limits" aria-labelledby="limits-head">
+    <h2 class="desk-head desk-head-amber" id="limits-head">The limits, up front</h2>
+    <p class="desk-lede">No Bluetooth scanner, this one included, can tell you:</p>
 
-    <div class="limits-grid">
-      <div class="limit">
-        <p class="limit-t">Whether a device is recording, listening, or transmitting.</p>
-        <p class="limit-d">A broadcast says a device is powered on and advertising. Nothing more, ever.</p>
+    <dl class="rows">
+      <div class="row">
+        <dt>Whether a device is recording, listening, or transmitting.</dt>
+        <dd>A broadcast says a device is powered on and advertising. Nothing more, ever.</dd>
       </div>
-      <div class="limit">
-        <p class="limit-t">Exact distance or direction.</p>
-        <p class="limit-d">Signal strength is bent by walls, bodies, and pockets. Near / Close / Far are rough bands and are labeled as such.</p>
+      <div class="row">
+        <dt>Exact distance or direction.</dt>
+        <dd>Signal strength is bent by walls, bodies, and pockets. Near / Close / Far are rough bands and are labeled as such.</dd>
       </div>
-      <div class="limit">
-        <p class="limit-t">A device's true identity.</p>
-        <p class="limit-d">Names are self-reported and spoofable &mdash; a name alone is always marked <b class="conf conf-low">Low</b> confidence. Many devices rotate addresses; some don't broadcast at all.</p>
+      <div class="row">
+        <dt>A device's true identity.</dt>
+        <dd>Names are self-reported and spoofable &mdash; a name alone is always marked <b class="conf conf-low">Low</b> confidence. Many devices rotate addresses; some don't broadcast at all.</dd>
       </div>
-      <div class="limit">
-        <p class="limit-t">Anything about Wi-Fi, cellular, or wired devices.</p>
-        <p class="limit-d">If it isn't broadcasting over Bluetooth, it isn't on the radar.</p>
+      <div class="row">
+        <dt>Anything about Wi-Fi, cellular, or wired devices.</dt>
+        <dd>If it isn't broadcasting over Bluetooth, it isn't on the radar.</dd>
       </div>
-      <div class="limit">
-        <p class="limit-t">That a room is clear.</p>
-        <p class="limit-d">An empty radar is not an all-clear. Devices that are off, paired, out of range, behind a wall, or simply not advertising never appear &mdash; so a quiet screen proves nothing, and Pinglight is not a sweep.</p>
+      <div class="row">
+        <dt>That a room is clear.</dt>
+        <dd>An empty radar is not an all-clear. Devices that are off, paired, out of range, behind a wall, or simply not advertising never appear &mdash; so a quiet screen proves nothing, and Pinglight is not a sweep.</dd>
       </div>
-    </div>
+    </dl>
 
     <p class="desk-note">So Pinglight never says &ldquo;spy camera detected.&rdquo; It says what a broadcast is <em>consistent with</em>, and marks every identification <b class="conf conf-high">High</b>, <b class="conf conf-med">Medium</b>, or <b class="conf conf-low">Low</b> &mdash; with the reason spelled out. It is an awareness tool for the curious, not a safety or security device: don't rely on it to keep you safe, and don't use it to accuse anyone.</p>
   </section>
 
-  <section class="desk" id="why-no-internet" aria-labelledby="net-eyebrow">
-    <div class="eyebrow-row">
-      <h2 class="eyebrow" id="net-eyebrow">Why no internet?</h2>
-      <span class="eyebrow-rule" aria-hidden="true"></span>
-    </div>
-    <h3 class="desk-head">A privacy tool that phones home isn&rsquo;t one.</h3>
+  <section class="desk" id="why-no-internet" aria-labelledby="net-head">
+    <h2 class="desk-head" id="net-head">Why no internet?</h2>
+    <p class="desk-lede">A privacy tool that phones home isn&rsquo;t one.</p>
 
-    <p class="desk-copy">Pinglight has <b>no network code at all</b> &mdash; not a setting, an architectural fact. Broadcasts are matched against registries built into the app: the Bluetooth SIG's public maker list, standard service identifiers, and broadcast patterns documented by public research. Everything happens on your phone, so nothing you scan can leave it.</p>
-    <p class="desk-copy">The session log lives in memory and is gone when you close the app. No account, no analytics, no ads &mdash; and Pinglight only listens to broadcasts; it never connects to any device.</p>
+    <dl class="rows">
+      <div class="row">
+        <dt>No network code</dt>
+        <dd>Pinglight has <b>no network code at all</b> &mdash; not a setting, an architectural fact.</dd>
+      </div>
+      <div class="row">
+        <dt>How matching works</dt>
+        <dd>Broadcasts are matched against registries built into the app: the Bluetooth SIG's public maker list, standard service identifiers, and broadcast patterns documented by public research. Everything happens on your phone, so nothing you scan can leave it.</dd>
+      </div>
+      <div class="row">
+        <dt>The session log</dt>
+        <dd>Lives in memory and is gone when you close the app. No account, no analytics, no ads &mdash; and Pinglight only listens to broadcasts; it never connects to any device.</dd>
+      </div>
+    </dl>
   </section>
 
-  <section class="panel panel-cta">
+  <section class="cta-plate">
     <div class="cta-copy">
       <h2 class="desk-head">Coming soon to the App Store.</h2>
       <p class="desk-copy">No ads, no subscription, no in-app purchases. No account, no server &mdash; the app has no network code at all.</p>
@@ -161,7 +210,7 @@
   </section>
 
   <footer class="ft">
-    <p class="ft-neutral">Pinglight never claims a device is recording or spying &mdash; no Bluetooth scanner can know that. It reports what a broadcast is <span class="phosphor">consistent with</span>, marks every identification <span class="phosphor">High</span>, <span class="amber">Medium</span>, or <span class="violet">Low</span> confidence, and keeps its limits one tap away inside the app. It is an informational tool, not a safety, security, or counter-surveillance device, and an empty radar is not an all-clear &mdash; see the <a href="/terms">Terms of Use</a>.</p>
+    <p class="ft-neutral">Pinglight never claims a device is recording or spying &mdash; no Bluetooth scanner can know that. It reports what a broadcast is <span class="ink-em">consistent with</span>, marks every identification <span class="ink-em">High</span>, <span class="amber-em">Medium</span>, or <span class="slate-em">Low</span> confidence, and keeps its limits one tap away inside the app. It is an informational tool, not a safety, security, or counter-surveillance device, and an empty radar is not an all-clear &mdash; see the <a href="/terms">Terms of Use</a>.</p>
     <div class="ft-meta">
       <span>&copy; 2026 Delvir Limited Liability Co.</span>
       <a href="/privacy">Privacy</a>

@@ -1,47 +1,33 @@
 /* Pinglight — marketing site.
 
-   Type: IBM Plex Sans for all prose and headings, IBM Plex Mono only for
-   numbers and 11px uppercase labels (house style, redesign/home). Loaded via
-   Google Fonts; the CSP allows fonts.googleapis.com / fonts.gstatic.com in
-   addition to 'self'.
+   Type: Familjen Grotesk for everything (display 700, tracking -0.02em;
+   body 400/500). Loaded via Google Fonts; the CSP allows fonts.googleapis.com
+   / fonts.gstatic.com in addition to 'self'.
+
+   Inspiration: a 1970s instrument data sheet plus a radar scope. Light
+   theme throughout.
 
    Two sections:
-     1. LANDING PAGE (body.lp) — the dark phosphor-radar artboard.
-     2. LEGAL PAGES (body.legal) — privacy.html / terms.html, same palette,
-        quieter chrome.
+     1. LANDING PAGE (body.lp) — the light instrument-sheet artboard.
+     2. LEGAL PAGES (body.legal) — same palette, quieter chrome.
 
-   Palette = the app's PinglightTheme (RootView.swift), converted to sRGB hex:
-     background #030907   panel #07130F   phosphor #4DFF99   dim #598C73
-     grid = phosphor at 16%
-   Category accents (Models.swift): amber #FF9E40 (tracker), violet #D973F2
-   (glasses), yellow #F2D959 (beacon), blue #66BFF2 (wearable). */
+   Palette:
+     paper #ecebe5   ink #1b1b19   rule #c9c7bf   amber #d98e1f
+     slate #4a5568 (secondary text) */
 
 :root {
-  --sans: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
-  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", SFMono-Regular, Menlo,
-          Consolas, "Liberation Mono", "Courier New", monospace;
+  --display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
 
-  --ground: #030907;
-  --panel: #07130f;
-  --line: #163a2a;
-  --phosphor: #4dff99;
-  --dim: #598c73;
-  --amber: #ff9e40;
-  --violet: #d973f2;
+  --paper: #ecebe5;
+  --ink: #1b1b19;
+  --rule: #c9c7bf;
+  --amber: #d98e1f;
+  --slate: #4a5568;
 
-  --text: #dcf2e6;
-  --body-muted: #9fc0af;
-  --hero-muted: #9fc0af;
-  --label: #6f9482;
-  --label-dim: #5d8070;
-  --label-dimmer: #4e6d5f;
-  --list-num: #3f5c4f;
+  --slate-soft: rgba(74, 85, 104, 0.7);
+  --rule-soft: rgba(201, 199, 191, 0.7);
 
-  --hair-24: rgba(77, 255, 153, 0.10);  /* list row borders */
-  --hair-soft: rgba(77, 255, 153, 0.13); /* eyebrow rule, footer rule */
-  --hair: rgba(77, 255, 153, 0.18);      /* stat rules, price-card border */
-
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 * {
@@ -54,9 +40,9 @@ html {
 
 body {
   margin: 0;
-  background: var(--ground);
-  color: var(--text);
-  font-family: var(--sans);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--display);
   font-weight: 400;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
@@ -67,28 +53,23 @@ p {
 }
 
 a {
-  color: var(--phosphor);
-  text-decoration-color: rgba(77, 255, 153, 0.4);
+  color: var(--ink);
+  text-decoration-color: rgba(27, 27, 25, 0.35);
   text-underline-offset: 3px;
 }
 
 a:hover {
-  color: var(--text);
+  color: var(--amber);
   text-decoration-color: currentColor;
 }
 
 :focus-visible {
-  outline: 2px solid var(--phosphor);
+  outline: 2px solid var(--amber);
   outline-offset: 3px;
 }
 
 /* ==================================================================
    LANDING PAGE (index.html, body.lp)
-
-   A single reading column, redesigned per the House Style spec
-   (redesign/home): header, a two-column hero (copy + radar screenshot),
-   three stats, then reading sections stacked in document order — no sticky
-   rail, no scroll-driven animation.
    ================================================================== */
 
 body.lp {
@@ -96,12 +77,12 @@ body.lp {
 }
 
 body.lp a {
-  color: var(--body-muted);
-  text-decoration-color: rgba(159, 192, 175, 0.4);
+  color: var(--slate);
+  text-decoration-color: rgba(74, 85, 104, 0.4);
 }
 
 body.lp a:hover {
-  color: var(--phosphor);
+  color: var(--amber);
   text-decoration-color: currentColor;
 }
 
@@ -109,17 +90,6 @@ body.lp a:hover {
   max-width: 1280px;
   margin: 0 auto;
   padding: 34px clamp(20px, 5.5vw, 80px) 96px;
-}
-
-/* Mono is reserved for numbers and 11px uppercase labels — never prose. */
-.mono,
-.hd-status,
-.eyebrow,
-.eyebrow-mono,
-.stat-n,
-.stat-l,
-.cta-os {
-  font-family: var(--mono);
 }
 
 /* ---------- header ---------- */
@@ -143,22 +113,20 @@ body.lp a:hover {
   height: 34px;
   flex: none;
   display: block;
-  stroke: var(--phosphor);
 }
 
-.mark-ring { stroke: var(--phosphor); }
-.mark-ring--in { stroke: var(--phosphor); opacity: 0.6; }
-.mark-hair { stroke: rgba(77, 255, 153, 0.18); }
-.mark-sweep { fill: none; stroke: var(--phosphor); }
-.mark-blip { fill: var(--phosphor); }
+.mark-ring { stroke: var(--ink); }
+.mark-ring--in { stroke: var(--ink); opacity: 0.55; }
+.mark-sweep { fill: none; stroke: var(--amber); }
+.mark-blip { fill: var(--amber); }
 
 .wordmark {
-  font-family: var(--sans);
+  font-family: var(--display);
   font-size: 20px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   line-height: 1.1;
-  color: var(--text);
+  color: var(--ink);
 }
 
 .hd-nav {
@@ -166,24 +134,22 @@ body.lp a:hover {
   align-items: center;
   gap: 30px;
   font-size: 15px;
-  color: var(--body-muted);
+  color: var(--slate);
 }
 
 .hd-nav a {
-  color: var(--body-muted);
+  color: var(--slate);
   text-decoration: none;
 }
 
 .hd-nav a:hover {
-  color: var(--phosphor);
+  color: var(--amber);
 }
 
 .hd-status {
-  font-weight: 400;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--label-dim);
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--slate);
   white-space: nowrap;
 }
 
@@ -191,8 +157,8 @@ body.lp a:hover {
 
 .hero {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 60px;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 56px;
   align-items: center;
   padding-top: clamp(52px, 7.5vw, 96px);
 }
@@ -200,38 +166,26 @@ body.lp a:hover {
 .hero-copy {
   display: flex;
   flex-direction: column;
-  gap: 26px;
+  gap: 22px;
   min-width: 0;
-}
-
-.eyebrow-mono {
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--phosphor);
 }
 
 .hero h1 {
   margin: 0;
-  font-family: var(--sans);
-  font-weight: 500;
-  font-size: clamp(32px, 4.2vw, 62px);
-  line-height: 1.06;
-  letter-spacing: -0.025em;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(32px, 4.2vw, 60px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
   text-wrap: pretty;
-  color: var(--text);
-}
-
-.hero h1 .accent {
-  color: var(--phosphor);
+  color: var(--ink);
 }
 
 .hero-lede {
   margin: 0;
   font-size: clamp(16px, 1.4vw, 19px);
   line-height: 1.6;
-  color: var(--body-muted);
+  color: var(--slate);
   max-width: 540px;
   text-wrap: pretty;
 }
@@ -252,10 +206,10 @@ body.lp a:hover {
   justify-content: center;
   gap: 10px;
   padding: 14px 22px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  color: var(--text);
-  font-family: var(--sans);
+  border: 1.5px solid var(--ink);
+  border-radius: 4px;
+  color: var(--ink);
+  font-family: var(--display);
   font-weight: 500;
   font-size: 15px;
 }
@@ -266,56 +220,22 @@ body.lp a:hover {
   height: 6px;
   flex: none;
   border-radius: 50%;
-  background: var(--phosphor);
+  background: var(--amber);
   animation: pl-pulse 2.4s ease-in-out infinite;
 }
 
 @keyframes pl-pulse {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.25; }
+  50% { opacity: 0.3; }
 }
 
 .hero-note {
-  font-family: var(--sans);
+  font-family: var(--display);
   font-size: 14px;
-  color: var(--body-muted);
+  color: var(--slate);
 }
 
-/* ---------- three stat blocks ---------- */
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-  margin-top: 18px;
-  max-width: 640px;
-}
-
-.stat {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding-top: 14px;
-  border-top: 1px solid var(--line);
-}
-
-.stat-n {
-  font-size: clamp(20px, 2vw, 26px);
-  font-weight: 400;
-  line-height: 1;
-  color: var(--phosphor);
-}
-
-.stat-l {
-  font-weight: 400;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--label-dim);
-  line-height: 1.4;
-}
-
-/* ---------- hero device: the radar screenshot ---------- */
+/* ---------- hero device: the radar scope ---------- */
 
 .hero-device {
   position: relative;
@@ -323,93 +243,110 @@ body.lp a:hover {
   justify-content: center;
 }
 
-.phone {
+.radar-scope {
   position: relative;
-  width: min(310px, 100%);
-  border-radius: 40px;
-  padding: 10px;
-  background: #0b1a13;
-  border: 1px solid var(--line);
-  box-shadow:
-    0 40px 90px rgba(0, 0, 0, 0.6),
-    0 0 80px rgba(77, 255, 153, 0.08);
+  width: min(560px, 100%);
 }
 
-.phone-rim {
+.scope-svg {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 32px;
-  overflow: hidden;
 }
 
-.phone-screen {
-  display: block;
-  width: 100%;
+.radar-phone {
+  position: absolute;
+  right: -12px;
+  bottom: -8px;
+  width: 150px;
   height: auto;
+  display: block;
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  background: var(--paper);
+  box-shadow: 0 12px 28px rgba(27, 27, 25, 0.16);
+}
+
+/* ---------- spec table (facts, dotted leaders) ---------- */
+
+.spec {
+  padding-top: clamp(56px, 6vw, 80px);
+}
+
+.spec-table {
+  margin: 0;
+  max-width: 720px;
+}
+
+.spec-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 13px 0;
+  border-top: 1px solid var(--rule);
+}
+
+.spec-row dt {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  flex: 1;
+  min-width: 0;
+  font-weight: 400;
+  font-size: 15px;
+  color: var(--slate);
+  white-space: nowrap;
+}
+
+.spec-row dt::after {
+  content: "";
+  flex: 1;
+  margin: 0 8px 3px;
+  border-bottom: 1px dotted var(--rule);
+}
+
+.spec-row dd {
+  margin: 0;
+  flex: none;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
 }
 
 /* ---------- reading sections ---------- */
 
 .desk {
-  padding-top: clamp(72px, 8vw, 112px);
+  padding-top: clamp(64px, 7.5vw, 100px);
   max-width: 1280px;
-}
-
-.panel {
-  margin-top: clamp(72px, 8vw, 112px);
-  padding: 48px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-}
-
-.eyebrow-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.eyebrow {
-  margin: 0;
-  font-weight: 400;
-  font-size: 11px;
-  line-height: 1.2;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--phosphor);
-}
-
-.eyebrow-amber {
-  color: var(--amber);
-}
-
-.eyebrow-rule {
-  flex: 1;
-  height: 1px;
-  background: var(--hair-soft);
+  border-top: 1px solid var(--rule);
 }
 
 .desk-head {
-  margin: 14px 0 0;
-  font-family: var(--sans);
-  font-weight: 500;
-  font-size: clamp(24px, 2.6vw, 38px);
-  line-height: 1.12;
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(24px, 2.6vw, 36px);
+  line-height: 1.15;
   letter-spacing: -0.02em;
-  color: var(--text);
+  color: var(--ink);
   text-wrap: pretty;
 }
 
-.panel .desk-head,
-.panel .eyebrow-row {
-  margin: 0;
+.desk-head-amber {
+  color: var(--amber);
 }
 
-/* --- "On the radar" definition-list rows --- */
+.desk-lede {
+  margin: 10px 0 0;
+  font-size: clamp(16px, 1.3vw, 18px);
+  color: var(--slate);
+  max-width: 700px;
+  text-wrap: pretty;
+}
+
+/* --- field-guide rows: term left (700), explanation right --- */
 
 .rows {
   margin: 32px 0 0;
@@ -419,105 +356,79 @@ body.lp a:hover {
 
 .row {
   display: grid;
-  grid-template-columns: 240px minmax(0, 1fr);
+  grid-template-columns: 260px minmax(0, 1fr);
   gap: 24px;
   padding: 22px 0;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--rule);
 }
 
 .row dt {
   margin: 0;
-  font-weight: 500;
-  font-size: 19px;
-  color: var(--text);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
 }
 
 .row dd {
   margin: 0;
   font-size: 16px;
   line-height: 1.6;
-  color: var(--body-muted);
+  color: var(--slate);
   text-wrap: pretty;
 }
 
-/* --- "The limits, up front" grid --- */
-
-.limits-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px 40px;
-}
-
-.limit {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 18px 0;
-  border-top: 1px solid var(--line);
-}
-
-.limit-t {
-  margin: 0;
-  font-weight: 500;
-  font-size: 18px;
-  color: var(--text);
-}
-
-.limit-d {
-  margin: 0;
-  font-size: 15px;
-  line-height: 1.55;
-  color: var(--body-muted);
-}
-
 .desk-note {
-  margin: 0;
+  margin: 28px 0 0;
+  padding-top: 22px;
+  border-top: 1px solid var(--rule);
   font-size: 15px;
   line-height: 1.6;
-  color: var(--label-dim);
+  color: var(--slate);
   max-width: 900px;
   text-wrap: pretty;
 }
 
 .desk-note em {
   font-style: normal;
-  color: var(--text);
-}
-
-/* Confidence chips, colored like the app's badges. */
-.conf {
+  color: var(--ink);
   font-weight: 500;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  font-size: 0.86em;
-  font-family: var(--sans);
 }
 
-.conf-high { color: var(--phosphor); }
+/* Confidence labels, plain text, no chips. */
+.conf {
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  font-size: 0.9em;
+  font-family: var(--display);
+}
+
+.conf-high { color: var(--ink); }
 .conf-med  { color: var(--amber); }
-.conf-low  { color: var(--violet); }
+.conf-low  { color: var(--slate); }
 
 .desk-copy {
   margin: 16px 0 0;
   font-size: 16px;
   line-height: 1.6;
-  color: var(--body-muted);
+  color: var(--slate);
   max-width: 560px;
   text-wrap: pretty;
 }
 
-.desk-copy:first-of-type {
-  margin-top: 32px;
-}
-
 .desk-copy b {
-  color: var(--text);
-  font-weight: 500;
+  color: var(--ink);
+  font-weight: 700;
 }
 
-/* --- closing "Coming soon" panel --- */
+/* --- closing "Coming soon" plate --- */
 
-.panel-cta {
+.cta-plate {
+  margin-top: clamp(64px, 7.5vw, 100px);
+  padding: 40px;
+  border: 1.5px solid var(--ink);
+  border-radius: 4px;
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -536,11 +447,14 @@ body.lp a:hover {
 }
 
 .cta-os {
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--phosphor);
+  flex: none;
+  padding: 6px 12px;
+  border: 1.5px solid var(--ink);
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--ink);
   white-space: nowrap;
 }
 
@@ -549,7 +463,7 @@ body.lp a:hover {
 .ft {
   margin-top: clamp(56px, 7.5vw, 96px);
   padding-top: 26px;
-  border-top: 1px solid var(--hair-soft);
+  border-top: 1px solid var(--rule);
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -561,24 +475,22 @@ body.lp a:hover {
   max-width: 720px;
   font-size: 14px;
   line-height: 1.65;
-  color: var(--label-dim);
+  color: var(--slate);
   text-wrap: pretty;
 }
 
-.ft-neutral .phosphor { color: var(--phosphor); }
-.ft-neutral .amber { color: var(--amber); }
-.ft-neutral .violet { color: var(--violet); }
+.ft-neutral .ink-em { color: var(--ink); font-weight: 500; }
+.ft-neutral .amber-em { color: var(--amber); font-weight: 500; }
+.ft-neutral .slate-em { color: var(--slate); font-weight: 700; }
 
 .ft-meta {
   display: flex;
   align-items: center;
   gap: 26px;
-  font-family: var(--mono);
-  font-weight: 400;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--label-dimmer);
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--slate);
   white-space: nowrap;
 }
 
@@ -589,23 +501,27 @@ body.lp a:hover {
 }
 
 /* ---------- narrow screens ------------------------------------------------
-   One honest column below 900px: hero copy stacks above the phone, and the
-   two reading grids (device rows, limits) collapse to one column below
-   640px. Nothing is pinned and nothing hijacks a gesture. */
+   One honest column below 900px: hero copy stacks above the scope, and the
+   field-guide rows collapse to one column below 640px. Nothing is pinned
+   and nothing hijacks a gesture. */
 
 @media (max-width: 899px) {
   .hero {
     grid-template-columns: minmax(0, 1fr);
-    gap: 40px;
+    gap: 36px;
   }
 
   .hero-device {
     order: -1;
   }
 
-  .phone {
-    width: min(240px, 62vw);
+  .radar-scope {
+    width: min(320px, 78vw);
     margin: 0 auto;
+  }
+
+  .radar-phone {
+    width: 150px;
   }
 
   .row {
@@ -613,11 +529,7 @@ body.lp a:hover {
     gap: 6px;
   }
 
-  .limits-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .panel-cta {
+  .cta-plate {
     flex-direction: column;
     align-items: flex-start;
     gap: 20px;
@@ -629,17 +541,16 @@ body.lp a:hover {
     display: none;
   }
 
-  .panel {
-    padding: 28px 22px;
+  .cta-plate {
+    padding: 26px 22px;
   }
 
-  .stats {
-    gap: 12px;
-    max-width: none;
+  .spec-row {
+    flex-wrap: wrap;
   }
 
-  .stat {
-    padding-top: 12px;
+  .spec-row dt {
+    white-space: normal;
   }
 
   .ft {
@@ -670,7 +581,7 @@ body.lp a:hover {
 
   .wordmark { font-size: 17px; }
 
-  .hd-status { font-size: 11px; }
+  .hd-status { font-size: 12px; }
 }
 
 /* ==================================================================
@@ -684,7 +595,7 @@ body.lp a:hover {
 }
 
 .site-header {
-  border-bottom: 1px solid var(--hair-soft);
+  border-bottom: 1px solid var(--rule);
 }
 
 .site-header .wrap {
@@ -705,7 +616,7 @@ body.lp a:hover {
 }
 
 body.legal .brand {
-  color: var(--text);
+  color: var(--ink);
 }
 
 .brand .seal {
@@ -715,25 +626,26 @@ body.legal .brand {
 }
 
 .brand-name {
+  font-family: var(--display);
   font-weight: 700;
   font-size: 1.05rem;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.01em;
 }
 
 .site-nav a {
-  color: var(--body-muted);
+  color: var(--slate);
   text-decoration: none;
   font-size: 0.9rem;
   margin-left: 1.25rem;
 }
 
 .site-nav a:hover {
-  color: var(--phosphor);
+  color: var(--amber);
   text-decoration: underline;
 }
 
 .site-footer {
-  border-top: 1px solid var(--hair-soft);
+  border-top: 1px solid var(--rule);
   padding: 2rem 0 3rem;
 }
 
@@ -745,11 +657,11 @@ body.legal .brand {
   align-items: center;
   justify-content: space-between;
   font-size: 0.85rem;
-  color: var(--label-dim);
+  color: var(--slate);
 }
 
 .site-footer nav a {
-  color: var(--label-dim);
+  color: var(--slate);
   text-decoration: none;
   margin-right: 1.1rem;
 }
@@ -759,7 +671,7 @@ body.legal .brand {
 }
 
 .site-footer nav a:hover {
-  color: var(--phosphor);
+  color: var(--amber);
   text-decoration: underline;
 }
 
@@ -768,27 +680,32 @@ body.legal .brand {
 }
 
 .legal h1 {
+  font-family: var(--display);
+  font-weight: 700;
   font-size: 1.9rem;
   line-height: 1.2;
   margin: 0 0 0.25rem;
-  color: var(--phosphor);
+  letter-spacing: -0.02em;
+  color: var(--ink);
 }
 
 .legal .effective {
-  color: var(--label);
+  color: var(--slate);
   font-size: 0.9rem;
   margin-bottom: 2rem;
 }
 
 .legal h2 {
+  font-family: var(--display);
+  font-weight: 700;
   font-size: 1.1rem;
   line-height: 1.3;
   margin: 2rem 0 0.5rem;
-  color: var(--text);
+  color: var(--ink);
 }
 
 .legal p, .legal li {
-  color: var(--body-muted);
+  color: var(--slate);
   font-size: 0.95rem;
 }
 
@@ -797,16 +714,16 @@ body.legal .brand {
 }
 
 .legal .notice {
-  border: 1px solid var(--hair);
+  border: 1px solid var(--rule);
   border-left: 3px solid var(--amber);
   padding: 0.75rem 1rem;
-  background: var(--panel);
+  background: rgba(201, 199, 191, 0.18);
   border-radius: 0 6px 6px 0;
   font-size: 0.88rem;
-  color: var(--label);
+  color: var(--slate);
   margin-bottom: 2rem;
 }
 
 .legal strong {
-  color: var(--text);
+  color: var(--ink);
 }
