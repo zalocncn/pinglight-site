@@ -113,6 +113,9 @@
   position: absolute;
   inset: 0;
   will-change: transform;
+  /* Discrete steps (see phone.js): glide between screens, never hold a
+     scroll-scrubbed fractional position — that was the visible seam. */
+  transition: transform 0.34s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 .ph-shot {
   display: block;
@@ -179,5 +182,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ph-cap, .ph-dot { transition: none; }
+  .ph-cap, .ph-dot, .ph-strip { transition: none; }
 }

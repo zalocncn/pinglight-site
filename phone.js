@@ -32,21 +32,20 @@
       track.style.setProperty('--ph-w', w + 'px');
     }
 
-    function ease(f) { return f < 0.5 ? 2 * f * f : 1 - Math.pow(-2 * f + 2, 2) / 2; }   // easeInOutQuad
-
     function update() {
       ticking = false;
       var rect = track.getBoundingClientRect();
       var range = track.offsetHeight - sticky.offsetHeight;
       var p = range > 0 ? Math.min(1, Math.max(0, -rect.top / range)) : 0;
-      var raw = p * (n - 1);
-      var i = Math.floor(raw), f = raw - i;
-      if (i >= n - 1) { i = n - 1; f = 0; }
-      var pos = i + ease(f);
-      strip.style.transform = 'translate3d(0,' + (-pos * 100) + '%,0)';
-      var idx = Math.round(raw);
+      // Snap straight to the nearest screen index. The CSS transition on
+      // .ph-strip glides between steps; we never hold a fractional,
+      // scroll-scrubbed position, which is what let two screens show at
+      // once mid-scroll (a visible seam) with a caption already pointing
+      // at the wrong one.
+      var idx = Math.round(p * (n - 1));
       if (idx !== current) {
         current = idx;
+        strip.style.transform = 'translate3d(0,' + (-idx * 100) + '%,0)';
         Array.prototype.forEach.call(caps, function (c, k) { c.classList.toggle('is-active', k === idx); });
         Array.prototype.forEach.call(dots, function (d, k) { d.classList.toggle('is-active', k === idx); });
       }
