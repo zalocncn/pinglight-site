@@ -191,6 +191,13 @@ body.lp a:hover {
   margin-top: 4px;
 }
 
+.store-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
 .pill {
   display: inline-flex;
   align-items: center;
